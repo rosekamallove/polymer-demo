@@ -10,7 +10,7 @@ class MyElement extends PolymerElement {
     return html`
       <style>
         .mood {
-          color: green;
+          color: #2ecc71;
         }
       </style>
       Web Components are <span class="mood">[[mood]]</span>!

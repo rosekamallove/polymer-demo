@@ -1,5 +1,4 @@
-import { PolymerElement } from "@polymer/polymer";
-import { html } from "@polymer/polymer";
+import { html, PolymerElement } from "@polymer/polymer";
 
 class FetchExample extends PolymerElement {
   static get properties() {
@@ -10,13 +9,16 @@ class FetchExample extends PolymerElement {
     super();
     this.num = 1;
     this.fetchedData = null;
+    this.text = "Text from API";
   }
   connectedCallback() {
     super.connectedCallback();
     fetch(`https://reqres.in/api/products/${this.num}`).then((data) =>
-      data
-        .json()
-        .then((res) => (this.fetchedData = JSON.stringify(res, null, 2)))
+      data.json().then((res) => {
+        if (!res) return;
+        this.fetchedData = JSON.stringify(res, null, 2);
+        this.text = res.support.text;
+      })
     );
   }
 
@@ -97,8 +99,9 @@ class FetchExample extends PolymerElement {
           transition: width 0.2s ease-out, padding-top 0.2s ease-out;
         }
       </style>
-      <h1>Fetched number: [[num]]</h1>
-      <h3>Fetched Response:</h3>
+      <h1>Number to fetch: [[num]]</h1>
+      <h3>Fetched Response: <br /></h3>
+      <p>Text: [[text]]</p>
       <div class="pre">
         <pre>[[fetchedData]]</pre>
       </div>
